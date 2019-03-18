@@ -1,0 +1,43 @@
+ARG ARCH=armhf
+ARG DOCKERSRC=alpine-nginx
+ARG USERNAME=woahbase
+#
+FROM woahbase/alpine-nginx:armhf
+#
+ARG PUID=1001
+ARG PGID=1001
+ENV COCKPIT_VERSION=0.8.11
+ENV COCKPIT_SRC=/opt/cockpit.zip
+#
+
+RUN set -xe \
+    && apk add --no-cache --purge -uU \
+    curl \
+    php7 \
+    php7-fpm \
+    php7-curl \
+    php7-mcrypt \
+    php7-mbstring \
+    php7-openssl \
+    php7-pcntl \
+    php7-json \
+    php7-session \
+    php7-gd \
+    php7-pdo \
+    php7-zip \
+    php7-ctype \
+    php7-zlib \
+    php7-apcu \
+    php7-intl \
+    php7-posix  \
+    php7-sqlite3 \
+    php7-pdo_dblib \
+    php7-pdo_mysql \
+    php7-pdo_sqlite \
+    sqlite \
+    composer \
+    && ln -sf /usr/bin/php7 /usr/bin/php \
+    && rm -rf /var/cache/apk/* /tmp/*
+
+# add local files
+COPY root/ /
